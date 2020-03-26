@@ -47,18 +47,23 @@ const UsersByDevice = props => {
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [15, 15, 22, 10, 10, 15, 8, 5],
         backgroundColor: [
           theme.palette.primary.main,
           theme.palette.error.main,
-          theme.palette.warning.main
+          theme.palette.warning.main,
+          theme.palette.primary.main,
+          theme.palette.error.main,
+          theme.palette.warning.main,
+          theme.palette.primary.main,
+          theme.palette.error.main,
         ],
         borderWidth: 8,
         borderColor: theme.palette.white,
         hoverBorderColor: theme.palette.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['Desktop', 'Tablet', 'Mobile', 'Desktop', 'Tablet', 'Mobile', 'Desktop', 'Tablet' ]
   };
 
   const options = {

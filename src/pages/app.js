@@ -17,20 +17,18 @@ import {
   NotFound as NotFoundView
 } from '../views';
 
-const Admin = () => {
+const App = () => {
   return (
     <Layout>
-      <Router basepath="/admin">
+      <Router basepath="/app">
         <Redirect noThrow from="/" to="dashboard" />
         <RouteWithLayout
           component={DashboardView}
-          // exact
           layout={MainLayout}
           path="/dashboard"
         />
         <RouteWithLayout
           component={UserListView}
-          // exact
           layout={MainLayout}
           path="/users"
         />
@@ -64,7 +62,7 @@ const Admin = () => {
           layout={MainLayout}
           path="/settings"
         />
-        <RouteWithLayout
+        {/* <RouteWithLayout
           component={SignUpView}
           // exact
           layout={MinimalLayout}
@@ -75,12 +73,11 @@ const Admin = () => {
           // exact
           layout={MinimalLayout}
           path="/sign-in"
-        />
+        /> */}
         <RouteWithLayout
           component={NotFoundView}
-          // exact
           layout={MinimalLayout}
-          path="/not-found"
+          path="/404"
         />
       </Router>
     </Layout>

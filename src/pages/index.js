@@ -1,9 +1,10 @@
 import React from 'react'
+import { Minimal as Layout } from "layouts"
 
 const Index = () => (
-  <div>
+  <Layout>
     <h1>Index</h1>
-  </div>
+  </Layout>
 )
 
 export default Index

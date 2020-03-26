@@ -64,7 +64,7 @@ const Dashboard = () => {
         >
           <TotalProfit />
         </Grid>
-        <Grid
+        {/* <Grid
           item
           lg={8}
           md={12}
@@ -81,7 +81,7 @@ const Dashboard = () => {
           xs={12}
         >
           <UsersByDevice />
-        </Grid>
+        </Grid> */}
         <Grid
           item
           lg={4}
