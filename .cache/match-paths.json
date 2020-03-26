@@ -1,6 +1,0 @@
-[
-    {
-        "path": "/admin/",
-        "matchPath": "/admin/*"
-    }
-]
