@@ -84,4 +84,4 @@ const App = () => {
   )
 }
 
-export default Admin
+export default App
