@@ -3,7 +3,7 @@ import { Router, Redirect } from "@reach/router"
 
 import { RouteWithLayout } from 'components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
-import Layout from "components/Layout/Layout";
+// import Layout from "components/Layout/Layout";
 import {
   Dashboard as DashboardView,
   ProductList as ProductListView,
@@ -19,8 +19,12 @@ import {
 
 const App = () => {
   return (
-    <Layout>
       <Router basepath="/app">
+        <RouteWithLayout
+          component={SignInView}
+          layout={MinimalLayout}
+          path="/sign-in"
+        />
         <Redirect noThrow from="/" to="dashboard" />
         <RouteWithLayout
           component={DashboardView}
@@ -80,7 +84,6 @@ const App = () => {
           path="/404"
         />
       </Router>
-    </Layout>
   )
 }
 

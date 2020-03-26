@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from '@reach/router';
+import { Link as RouterLink, navigate } from '@reach/router';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -7,6 +7,7 @@ import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import { logout } from '../../../../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,6 +54,7 @@ const Topbar = props => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={() => logout(() => navigate(`sign-in`))}
           >
             <InputIcon />
           </IconButton>
