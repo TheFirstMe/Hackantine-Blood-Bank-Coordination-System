@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from '@reach/router';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -40,14 +40,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CustomRouterLink = forwardRef((props, ref) => (
-  <div
-    ref={ref}
-    style={{ flexGrow: 1 }}
-  >
-    <RouterLink {...props} />
-  </div>
-));
+const CustomRouterLink = forwardRef(({ activeClassName, ...rest }, ref) => {
+  const isActive = ({ isPartiallyCurrent }) => {
+    return isPartiallyCurrent ? { className: `${rest.className} ${activeClassName}` } : { }
+  }
+
+  return (
+    <div
+      ref={ref}
+      style={{ flexGrow: 1 }}
+    >
+      <RouterLink getProps={isActive} {...rest} />
+    </div>
+  )
+});
 
 const SidebarNav = props => {
   const { pages, className, ...rest } = props;
@@ -69,8 +75,9 @@ const SidebarNav = props => {
             activeClassName={classes.active}
             className={classes.button}
             component={CustomRouterLink}
-            to={page.href}
+            to={`../${page.href}`}
           >
+
             <div className={classes.icon}>{page.icon}</div>
             {page.title}
           </Button>

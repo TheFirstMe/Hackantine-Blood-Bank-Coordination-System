@@ -1,9 +1,9 @@
 import React from "react"
-import { Router } from "@reach/router"
+import { Router, Redirect } from "@reach/router"
 
-import { RouteWithLayout } from '../components';
+import { RouteWithLayout } from 'components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
-import Layout from "../components/Layout";
+import Layout from "components/Layout/Layout";
 import {
   Dashboard as DashboardView,
   ProductList as ProductListView,
@@ -21,6 +21,7 @@ const Admin = () => {
   return (
     <Layout>
       <Router basepath="/admin">
+        <Redirect noThrow from="/" to="dashboard" />
         <RouteWithLayout
           component={DashboardView}
           // exact
@@ -85,3 +86,5 @@ const Admin = () => {
     </Layout>
   )
 }
+
+export default Admin

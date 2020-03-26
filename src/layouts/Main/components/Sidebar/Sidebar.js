@@ -45,42 +45,42 @@ const Sidebar = props => {
   const pages = [
     {
       title: 'Dashboard',
-      href: '/dashboard',
+      href: 'dashboard',
       icon: <DashboardIcon />
     },
     {
       title: 'Users',
-      href: '/users',
+      href: 'users',
       icon: <PeopleIcon />
     },
     {
       title: 'Products',
-      href: '/products',
+      href: 'products',
       icon: <ShoppingBasketIcon />
     },
     {
       title: 'Authentication',
-      href: '/sign-in',
+      href: 'sign-in',
       icon: <LockOpenIcon />
     },
     {
       title: 'Typography',
-      href: '/typography',
+      href: 'typography',
       icon: <TextFieldsIcon />
     },
     {
       title: 'Icons',
-      href: '/icons',
+      href: 'icons',
       icon: <ImageIcon />
     },
     {
       title: 'Account',
-      href: '/account',
+      href: 'account',
       icon: <AccountBoxIcon />
     },
     {
       title: 'Settings',
-      href: '/settings',
+      href: 'settings',
       icon: <SettingsIcon />
     }
   ];

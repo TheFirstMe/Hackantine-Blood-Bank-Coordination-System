@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink, navigate } from '@reach/router';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -141,8 +141,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
-  const { history } = props;
-
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -182,12 +180,12 @@ const SignUp = props => {
   };
 
   const handleBack = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   const handleSignUp = event => {
     event.preventDefault();
-    history.push('/');
+    navigate('/');
   };
 
   const hasError = field =>
@@ -378,8 +376,4 @@ const SignUp = props => {
   );
 };
 
-SignUp.propTypes = {
-  history: PropTypes.object
-};
-
-export default withRouter(SignUp);
+export default SignUp;

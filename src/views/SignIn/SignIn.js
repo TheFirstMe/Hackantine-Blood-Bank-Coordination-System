@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import { Link as RouterLink, navigate } from '@reach/router';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import { Facebook as FacebookIcon, Google as GoogleIcon } from '../../icons';
 
 const schema = {
   email: {
@@ -126,8 +126,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { history } = props;
-
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -148,7 +146,7 @@ const SignIn = props => {
   }, [formState.values]);
 
   const handleBack = () => {
-    history.goBack();
+    navigate(-1)
   };
 
   const handleChange = event => {
@@ -172,7 +170,7 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
-    history.push('/');
+    navigate('/');
   };
 
   const hasError = field =>
@@ -340,8 +338,5 @@ const SignIn = props => {
   );
 };
 
-SignIn.propTypes = {
-  history: PropTypes.object
-};
 
-export default withRouter(SignIn);
+export default SignIn;
