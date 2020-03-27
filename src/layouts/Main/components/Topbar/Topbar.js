@@ -51,13 +51,6 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            className={classes.signOutButton}
-            color="inherit"
-            onClick={() => logout(() => navigate(`sign-in`))}
-          >
-            <InputIcon />
-          </IconButton>
         </Hidden>
         <Hidden lgUp>
           <IconButton

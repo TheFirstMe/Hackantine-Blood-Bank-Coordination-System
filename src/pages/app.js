@@ -16,6 +16,7 @@ import {
   SignIn as SignInView,
   NotFound as NotFoundView
 } from '../views';
+import { isLoggedIn } from "utils/auth"
 
 const App = () => {
   return (
@@ -25,46 +26,53 @@ const App = () => {
           layout={MinimalLayout}
           path="/sign-in"
         />
-        <Redirect noThrow from="/" to="dashboard" />
+        <Redirect noThrow from="/" to={isLoggedIn() ? "dashboard" : "sign-in"} />
         <RouteWithLayout
           component={DashboardView}
           layout={MainLayout}
           path="/dashboard"
+          protect
         />
         <RouteWithLayout
           component={UserListView}
           layout={MainLayout}
           path="/users"
+          protect
         />
         <RouteWithLayout
           component={ProductListView}
           // exact
           layout={MainLayout}
           path="/products"
+          protect
         />
         <RouteWithLayout
           component={TypographyView}
           // exact
           layout={MainLayout}
           path="/typography"
+          protect
         />
         <RouteWithLayout
           component={IconsView}
           // exact
           layout={MainLayout}
           path="/icons"
+          protect
         />
         <RouteWithLayout
           component={AccountView}
           // exact
           layout={MainLayout}
           path="/account"
+          protect
         />
         <RouteWithLayout
           component={SettingsView}
           // exact
           layout={MainLayout}
           path="/settings"
+          protect
         />
         {/* <RouteWithLayout
           component={SignUpView}
