@@ -1,19 +1,35 @@
-import palette from '../../../../gatsby-theme-material-ui-top-layout/palette'
+import palette from 'gatsby-theme-material-ui-top-layout/palette'
+
+const available = [341, 25, 328, 29, 257, 10, 86, 6]
+const required = [300, 75, 300, 75, 90, 15, 50, 10]
+let barFillColor = []
+
+for (let i = 0; i < available.length; i++) {
+  if (available[i] < required[i]) {
+    barFillColor[i] = palette.error.main
+  }
+  else {
+    barFillColor[i] = palette.success.main
+  }
+}
 
 export const data = {
-  labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug'],
+  labels: ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
   datasets: [
     {
-      label: 'This year',
-      backgroundColor: palette.primary.main,
-      data: [18, 5, 19, 27, 29, 19, 20]
+      label: 'Available',
+      backgroundColor: [...barFillColor],
+      data: [...available],
+      barThickness: 12,
+      maxBarThickness: 10,
+      barPercentage: 0.5,
+      categoryPercentage: 0.5,
     },
-    {
-      label: 'Last year',
-      backgroundColor: palette.neutral,
-      data: [11, 20, 12, 29, 30, 25, 13]
-    }
-  ]
+    // {
+    //   label: 'Desired',
+    //   data: [11, 20, 12, 29, 30, 25, 13]
+    // }
+  ],
 };
 
 export const options = {
@@ -37,10 +53,6 @@ export const options = {
   scales: {
     xAxes: [
       {
-        barThickness: 12,
-        maxBarThickness: 10,
-        barPercentage: 0.5,
-        categoryPercentage: 0.5,
         ticks: {
           fontColor: palette.text.secondary
         },
