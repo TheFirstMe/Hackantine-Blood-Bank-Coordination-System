@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-import { SearchInput } from 'components';
+import { SearchInput, DeleteButton } from 'components';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -23,7 +23,12 @@ const useStyles = makeStyles(theme => ({
   exportButton: {
     marginRight: theme.spacing(1)
   },
+  addButton: {
+    marginRight: theme.spacing(1)
+  },
   searchInput: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     marginRight: theme.spacing(1)
   }
 }));
@@ -45,14 +50,21 @@ const ProductsToolbar = props => {
         <Button
           color="primary"
           variant="contained"
+          className={classes.addButton}
         >
-          Add product
+          Add
         </Button>
+        <DeleteButton
+          color="primary"
+          variant="contained"
+        >
+          Delete
+        </DeleteButton>
       </div>
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
-          placeholder="Search product"
+          placeholder="Search donor"
         />
       </div>
     </div>

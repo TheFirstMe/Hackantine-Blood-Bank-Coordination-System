@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+// import "perfect-scrollbar/css/perfect-scrollbar.css"
+//todo: scss in react-perfect-scrollbar not being loaded - 
+//may be an issue with webpack config
+import "styles.scss"
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -25,12 +29,16 @@ import mockData from './data';
 import { StatusBullet } from 'components';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    "scrollbar-container": {
+      position: `relative`
+    }
+  },
   content: {
     padding: 0
   },
   inner: {
-    minWidth: 800
+    minWidth: 800,
   },
   statusContainer: {
     display: 'flex',
@@ -41,6 +49,9 @@ const useStyles = makeStyles(theme => ({
   },
   actions: {
     justifyContent: 'flex-end'
+  },
+  noOverflowX: {
+    overflowX: 'auto'
   }
 }));
 
@@ -72,17 +83,22 @@ const LatestOrders = props => {
             New entry
           </Button>
         }
-        title="Latest Orders"
+        title="Donor List"
       />
       <Divider />
       <CardContent className={classes.content}>
-        <PerfectScrollbar>
+        {/* <PerfectScrollbar> */}
+        <div className={classes.noOverflowX}>
           <div className={classes.inner}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Order Ref</TableCell>
-                  <TableCell>Customer</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Age</TableCell>
+                  <TableCell>Gender</TableCell>
+                  <TableCell>Weight</TableCell>
+                  <TableCell>Blood</TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
                       enterDelay={300}
@@ -105,8 +121,12 @@ const LatestOrders = props => {
                     hover
                     key={order.id}
                   >
-                    <TableCell>{order.ref}</TableCell>
                     <TableCell>{order.customer.name}</TableCell>
+                    <TableCell>{order.ref}</TableCell>
+                    <TableCell>{order.customer.age}</TableCell>
+                    <TableCell>{order.customer.gender}</TableCell>
+                    <TableCell>{order.customer.weight}</TableCell>
+                    <TableCell>{order.customer.bloodGroup}</TableCell>
                     <TableCell>
                       {moment(order.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
@@ -125,7 +145,8 @@ const LatestOrders = props => {
               </TableBody>
             </Table>
           </div>
-        </PerfectScrollbar>
+        </div>
+        {/* </PerfectScrollbar> */}
       </CardContent>
       <Divider />
       <CardActions className={classes.actions}>

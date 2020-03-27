@@ -43,21 +43,7 @@ const App = () => {
           component={ProductListView}
           // exact
           layout={MainLayout}
-          path="/products"
-          protect
-        />
-        <RouteWithLayout
-          component={TypographyView}
-          // exact
-          layout={MainLayout}
-          path="/typography"
-          protect
-        />
-        <RouteWithLayout
-          component={IconsView}
-          // exact
-          layout={MainLayout}
-          path="/icons"
+          path="/donors"
           protect
         />
         <RouteWithLayout

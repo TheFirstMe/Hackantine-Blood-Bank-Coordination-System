@@ -11,6 +11,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import OpacityIcon from '@material-ui/icons/Opacity';
 
 import { Profile, SidebarNav, UpgradePlan } from './components';
 
@@ -54,25 +55,25 @@ const Sidebar = props => {
       icon: <PeopleIcon />
     },
     {
-      title: 'Products',
-      href: 'products',
-      icon: <ShoppingBasketIcon />
+      title: 'Donors',
+      href: 'donors',
+      icon: <OpacityIcon />
     },
     // {
     //   title: 'Authentication',
     //   href: 'sign-in',
     //   icon: <LockOpenIcon />
     // },
-    {
-      title: 'Typography',
-      href: 'typography',
-      icon: <TextFieldsIcon />
-    },
-    {
-      title: 'Icons',
-      href: 'icons',
-      icon: <ImageIcon />
-    },
+    // {
+    //   title: 'Typography',
+    //   href: 'typography',
+    //   icon: <TextFieldsIcon />
+    // },
+    // {
+    //   title: 'Icons',
+    //   href: 'icons',
+    //   icon: <ImageIcon />
+    // },
     {
       title: 'Account',
       href: 'account',
@@ -97,8 +98,8 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
-        <Divider className={classes.divider} />
+        {/* <Profile />
+        <Divider className={classes.divider} /> */}
         <SidebarNav
           className={classes.nav}
           pages={pages}

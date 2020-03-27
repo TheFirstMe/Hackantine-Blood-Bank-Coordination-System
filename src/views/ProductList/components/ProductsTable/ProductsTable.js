@@ -15,9 +15,13 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Tooltip,
+  TableSortLabel,
   Typography,
   TablePagination
 } from '@material-ui/core';
+
+import { StatusBullet } from 'components'
 
 import { getInitials } from 'helpers';
 
@@ -41,11 +45,24 @@ const useStyles = makeStyles(theme => ({
   },
   noOverflowX: {
     overflowX: 'auto'
-  }
+  },
+  statusContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  status: {
+    marginRight: theme.spacing(1)
+  },
 }));
 
-const UsersTable = props => {
-  const { className, users, ...rest } = props;
+const statusColors = {
+  delivered: 'success',
+  pending: 'info',
+  refunded: 'danger'
+};
+
+const ProductsTable = props => {
+  const { className, products, ...rest } = props;
 
   const classes = useStyles();
 
@@ -54,12 +71,12 @@ const UsersTable = props => {
   const [page, setPage] = useState(0);
 
   const handleSelectAll = event => {
-    const { users } = props;
+    const { products } = props;
 
     let selectedUsers;
 
     if (event.target.checked) {
-      selectedUsers = users.map(user => user.id);
+      selectedUsers = products.map(user => user.id);
     } else {
       selectedUsers = [];
     }
@@ -109,24 +126,39 @@ const UsersTable = props => {
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedUsers.length === users.length}
+                      checked={selectedUsers.length === products.length}
                       color="primary"
                       indeterminate={
                         selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
+                        selectedUsers.length < products.length
                       }
                       onChange={handleSelectAll}
                     />
                   </TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
                   <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
+                  <TableCell>Age</TableCell>
+                  <TableCell>Gender</TableCell>
+                  <TableCell>Weight</TableCell>
+                  <TableCell>Blood</TableCell>
+                  <TableCell sortDirection="desc">
+                    <Tooltip
+                      enterDelay={300}
+                      title="Sort"
+                    >
+                      <TableSortLabel
+                        active
+                        direction="desc"
+                      >
+                        Date
+                      </TableSortLabel>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
+                {products.slice(0, rowsPerPage).map(user => (
                   <TableRow
                     className={classes.tableRow}
                     hover
@@ -142,14 +174,23 @@ const UsersTable = props => {
                       />
                     </TableCell>
                     <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
+                    <TableCell>{user.ref}</TableCell>
+                    <TableCell>{user.age}</TableCell>
+                    <TableCell>{user.gender}</TableCell>
+                    <TableCell>{user.weight}</TableCell>
+                    <TableCell>{user.bloodGroup}</TableCell>
                     <TableCell>
                       {moment(user.createdAt).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      <div className={classes.statusContainer}>
+                        <StatusBullet
+                          className={classes.status}
+                          color={statusColors[user.status]}
+                          size="sm"
+                        />
+                        {user.status}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -162,7 +203,7 @@ const UsersTable = props => {
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
-          count={users.length}
+          count={products.length}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}
@@ -174,9 +215,9 @@ const UsersTable = props => {
   );
 };
 
-UsersTable.propTypes = {
+ProductsTable.propTypes = {
   className: PropTypes.string,
-  users: PropTypes.array.isRequired
+  products: PropTypes.array.isRequired
 };
 
-export default UsersTable;
+export default ProductsTable;
