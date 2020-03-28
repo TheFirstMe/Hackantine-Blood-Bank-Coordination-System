@@ -35,6 +35,7 @@
         "gatsby": "^2.20.7",
         "gatsby-plugin-react-helmet": "^3.2.1",
         "gatsby-plugin-sass": "^2.2.1",
+        "gatsby-plugin-zeit-now": "^0.2.0",
         "gatsby-theme-material-ui": "^1.0.8",
         "history": "^4.9.0",
         "http-proxy-middleware": "^1.0.3",
