@@ -3,11 +3,15 @@ import { Link as RouterLink } from '@reach/router';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
     boxShadow: 'none'
+  },
+  link: {
+    textDecoration: `none`,
+    color: `white`
   }
 }));
 
@@ -24,12 +28,16 @@ const Topbar = props => {
       position="fixed"
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
-        </RouterLink>
+        <Typography
+                variant="h4"
+              >
+                <RouterLink
+                  to="/"
+                  className={classes.link}
+                >
+                  GCEK Blook Bank Coordination System
+                  </RouterLink>
+              </Typography>
       </Toolbar>
     </AppBar>
   );

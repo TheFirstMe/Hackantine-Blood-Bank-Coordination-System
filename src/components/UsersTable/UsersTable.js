@@ -21,10 +21,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+// import VisibilityIcon from '@material-ui/icons/Visibility';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import uuid from 'uuid/v1';
-import { getAccessToken, isAdmin } from "utils/auth"
+import { getAccessToken, getUserID, isAdmin } from "utils/auth"
 import { navigate, Link } from "@reach/router"
 
 function createData(name, calories, fat, carbs, protein) {
@@ -68,8 +68,9 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'blood_group', numeric: false, disablePadding: false, label: 'Blood Group' },
-  { id: 'contact_number', numeric: false, disablePadding: false, label: 'Contact No.' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'mobile_number', numeric: true, disablePadding: false, label: 'Mobile No.' },
+  { id: 'permission_id', numeric: true, disablePadding: false, label: 'Permission' },
 ];
 
 function EnhancedTableHead(props) {
@@ -165,7 +166,7 @@ const EnhancedTableToolbar = props => {
         </Typography>
         )} */}
       <Typography className={classes.title} variant="h4" id="tableTitle">
-        Donor List
+        User List
         </Typography>
       {isAdmin() &&
         <>
@@ -187,13 +188,13 @@ const EnhancedTableToolbar = props => {
           </Tooltip>
         </>
       }
-      <Tooltip title="View">
+      {/* <Tooltip title="View">
         <span>
           <IconButton aria-label="view" disabled={numSelected !== 1 ? true : false}>
             <VisibilityIcon />
           </IconButton>
         </span>
-      </Tooltip>
+      </Tooltip> */}
       {/* {numSelected > 0 ? (
         <Tooltip title="View">
           <IconButton aria-label="view">
@@ -363,16 +364,20 @@ function DonorTable({ rows, deleteDonar }) {
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
+                        {isAdmin() && <Checkbox
+                          checked={row.id === getUserID() ? false : isItemSelected}
+                          disabled={row.id === getUserID() ? true : false}
                           inputProps={{ 'aria-labelledby': labelId }}
-                        />
+                        />}
                       </TableCell>
                       <TableCell align="center" component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="center">{row["blood_group"]}</TableCell>
-                      <TableCell align="center">{row["contact_number"]}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
+                      <TableCell align="center">{row["mobile_number"]}</TableCell>
+                      <TableCell align="center">{
+                        row["permission_id"] === 1 ? `All` : `View`
+                      }</TableCell>
                       {/* <TableCell align="right">{row.carbs}</TableCell>
                         <TableCell align="right">{row.protein}</TableCell> */}
                     </TableRow>
@@ -380,7 +385,7 @@ function DonorTable({ rows, deleteDonar }) {
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={4} />
+                  <TableCell colSpan={5} />
                 </TableRow>
               )}
             </TableBody>
@@ -408,13 +413,13 @@ function DonorTable({ rows, deleteDonar }) {
 }
 
 
-const DonorList = () => {
+const UsersTable = () => {
   const [rows, setRows] = React.useState([])
   const [mod, setMod] = React.useState()
 
   React.useEffect(() => {
     // get data from GitHub api
-    fetch(`${process.env.GATSBY_API_URL}/donar/all`, {
+    fetch(`${process.env.GATSBY_API_URL}/user/all`, {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`
@@ -424,14 +429,14 @@ const DonorList = () => {
       .then(resultData => {
         console.log(resultData)
         if (resultData["status_code"] === 200) {
-          setRows(resultData.donars)
+          setRows(resultData.users)
         }
         // setData(resultData.stargazers_count)
       }) // set data for the number of stars
   }, [mod])
 
   const DeleteDonar = (id) => {
-    fetch(`${process.env.GATSBY_API_URL}/donar/delete`, {
+    fetch(`${process.env.GATSBY_API_URL}/user/delete/${id}`, {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`,
@@ -441,7 +446,7 @@ const DonorList = () => {
     })
       .then(response => response.json()) // parse JSON from request
       .then(resultData => {
-        console.log(resultData)
+        console.log(resultData.message)
         if (resultData["status_code"] === 200) {
           setMod(id)
         }
@@ -454,4 +459,4 @@ const DonorList = () => {
   )
 }
 
-export default DonorList
+export default UsersTable

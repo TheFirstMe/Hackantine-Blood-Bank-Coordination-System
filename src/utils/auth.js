@@ -43,7 +43,7 @@ export async function handleLogin({ email, password }) {
     console.log(`Invalid Credentials!`)
     return false
   }
-  catch(err) {
+  catch (err) {
     console.log(err)
   }
 }
@@ -57,6 +57,24 @@ export const isLoggedIn = () => {
 }
 
 export const getCurrentUser = () => isBrowser && getUser()
+
+export const getUserID = () => {
+  if (!isBrowser) return false
+
+  const userData = getUser()
+
+  return userData.user.id
+}
+
+export const isAdmin = () => {
+  if (!isBrowser) return false
+
+  const userData = getUser()
+  if (userData.user["permission_id"] === 1) {
+    return true
+  }
+  return false
+}
 
 export const getAccessToken = () => {
   if (!isBrowser) return false

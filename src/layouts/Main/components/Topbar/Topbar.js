@@ -3,7 +3,7 @@ import { Link as RouterLink, navigate } from '@reach/router';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -18,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   },
   signOutButton: {
     marginLeft: theme.spacing(1)
+  },
+   link: {
+    textDecoration: `none`,
+    color: `white`
   }
 }));
 
@@ -34,12 +38,16 @@ const Topbar = props => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
-        </RouterLink>
+        <Typography
+          variant="h4"
+        >
+          <RouterLink
+            to="/"
+            className={classes.link}
+          >
+            GCEK Blook Bank Coordination System
+                  </RouterLink>
+        </Typography>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <IconButton color="inherit">

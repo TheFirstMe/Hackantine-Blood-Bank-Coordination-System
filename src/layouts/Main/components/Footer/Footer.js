@@ -24,17 +24,17 @@ const Footer = props => {
         &copy;{' '}
         <Link
           component="a"
-          href="https://devias.io/"
+          href="https://www.gcek.ac.in/"
           target="_blank"
         >
-          Devias IO
+          GCEK
         </Link>
-        . 2019
+        . {new Date().getFullYear()}
       </Typography>
-      <Typography variant="caption">
+      {/* <Typography variant="caption">
         Created with love for the environment. By designers and developers who
         love to work together in offices!
-      </Typography>
+      </Typography> */}
     </div>
   );
 };

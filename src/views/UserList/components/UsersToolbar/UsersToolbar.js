@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
+import {Link} from '@reach/router'
 import { SearchInput, DeleteButton } from 'components';
 
 const useStyles = makeStyles(theme => ({
@@ -11,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     height: '42px',
     display: 'flex',
     alignItems: 'center',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   spacer: {
     flexGrow: 1
@@ -45,6 +47,8 @@ const UsersToolbar = props => {
           color="primary"
           variant="contained"
           // size="small"
+          component={Link}
+          to={`add`}
           className={classes.addButton}
         >
           Add
@@ -56,12 +60,12 @@ const UsersToolbar = props => {
           Delete
         </DeleteButton>
       </div>
-      <div className={classes.row}>
+      {/* <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
           placeholder="Search user"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

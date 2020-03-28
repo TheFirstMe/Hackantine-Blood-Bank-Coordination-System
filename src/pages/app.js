@@ -1,13 +1,12 @@
 import React from "react"
 import { Router, Redirect } from "@reach/router"
 
-import { RouteWithLayout, DonorForm, DonorList } from 'components';
+import { RouteWithLayout, DonorForm, DonorList, CreateUser, UsersTable as UserListView } from 'components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
 // import Layout from "components/Layout/Layout";
 import {
   Dashboard as DashboardView,
   ProductList as ProductListView,
-  UserList as UserListView,
   Typography as TypographyView,
   Icons as IconsView,
   Account as AccountView,
@@ -37,6 +36,12 @@ const App = () => {
           component={UserListView}
           layout={MainLayout}
           path="/users"
+          protect
+        />
+        <RouteWithLayout
+          component={CreateUser}
+          layout={MainLayout}
+          path="/users/add"
           protect
         />
         <RouteWithLayout

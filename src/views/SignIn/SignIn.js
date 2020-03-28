@@ -273,7 +273,7 @@ const SignIn = props => {
               >
                 Sign in now
                 </Button>
-              <Typography
+              {/* <Typography
                 color="textSecondary"
                 variant="body1"
               >
@@ -285,7 +285,7 @@ const SignIn = props => {
                 >
                   Reset
                   </Link>
-              </Typography>
+              </Typography> */}
             </form>
           </div>
         </div>

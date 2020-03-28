@@ -1,11 +1,9 @@
-import React from 'react'
-import { Minimal as Layout } from "layouts"
-import { DonorForm, DonorList } from "components"
+import { useEffect } from 'react';
+import { navigate } from 'gatsby';
 
-const Index = () => (
-  <Layout>
-    <DonorList />
-  </Layout>
-)
-
-export default Index
+export default () => {
+  useEffect(() => {
+    navigate('/app/');
+  }, []);
+  return null;
+};
