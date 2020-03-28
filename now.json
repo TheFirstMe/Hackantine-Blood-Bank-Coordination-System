@@ -2,8 +2,7 @@
   "env": {
     "API_URL": "@api_url"
   },
-  "routes": [
-    { "src": "/app", "dest": "/app/sign-in" },  
-    { "src": "/", "dest": "/app/sign-in" }
+  "routes": [ 
+    { "src": "/", "dest": "/app" }
   ]
 }
