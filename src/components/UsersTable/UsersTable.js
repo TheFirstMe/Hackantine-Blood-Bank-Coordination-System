@@ -419,7 +419,7 @@ const UsersTable = () => {
 
   React.useEffect(() => {
     // get data from GitHub api
-    fetch(`${process.env.GATSBY_API_URL}/user/all`, {
+    fetch(`/api/user/all`, {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`
@@ -436,7 +436,7 @@ const UsersTable = () => {
   }, [mod])
 
   const DeleteDonar = (id) => {
-    fetch(`${process.env.GATSBY_API_URL}/user/delete/${id}`, {
+    fetch(`/api/user/delete/${id}`, {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`,

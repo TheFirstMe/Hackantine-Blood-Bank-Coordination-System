@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
       password = req.body.password
     }
 
-    const apiResponse = await fetch(`http://bloodgcek-api.eastus.cloudapp.azure.com/api/user/login`, {
+    const apiResponse = await fetch(`${process.env.API_URL}/user/login`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
