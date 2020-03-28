@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
-
+import { DonorList} from "components"
 import {
   Budget,
   TotalUsers,
@@ -88,15 +88,15 @@ const Dashboard = () => {
         >
           <LatestProducts />
         </Grid> */}
-        <Grid
+        {/* <Grid
           item
           // lg={8}
           // md={12}
           // xl={9}
           xs={12}
         >
-          <LatestOrders />
-        </Grid>
+          <DonorList />
+        </Grid> */}
       </Grid>
     </div>
   );

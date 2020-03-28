@@ -1,7 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
-import { Link as RouterLink, navigate } from '@reach/router';
+import { Link as RouterLink } from '@reach/router';
+import { navigate } from "gatsby"
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -91,7 +92,7 @@ const SidebarNav = props => {
       >
         <Button
           className={classes.button}
-          onClick={() => logout(() => navigate(`sign-in`))}
+          onClick={() => logout(() => navigate(`app/sign-in`))}
         >
           <InputIcon className={classes.icon} />
           Sign Out

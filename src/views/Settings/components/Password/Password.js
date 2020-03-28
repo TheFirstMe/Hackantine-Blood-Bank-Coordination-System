@@ -12,8 +12,12 @@ import {
   TextField
 } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
-  root: {}
+const useStyles = makeStyles((theme) => ({
+  root: {},
+  action: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  }
 }));
 
 const Password = props => {
@@ -68,6 +72,7 @@ const Password = props => {
         <Divider />
         <CardActions>
           <Button
+            className={classes.action}
             color="primary"
             variant="outlined"
           >

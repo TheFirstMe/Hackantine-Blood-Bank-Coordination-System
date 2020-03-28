@@ -74,11 +74,11 @@ const Sidebar = props => {
     //   href: 'icons',
     //   icon: <ImageIcon />
     // },
-    {
-      title: 'Account',
-      href: 'account',
-      icon: <AccountBoxIcon />
-    },
+    // {
+    //   title: 'Account',
+    //   href: 'account',
+    //   icon: <AccountBoxIcon />
+    // },
     {
       title: 'Settings',
       href: 'settings',

@@ -4,9 +4,9 @@ import { navigate } from "gatsby"
 import { isLoggedIn } from "utils/auth"
 
 const RouteWithLayout = props => {
-  const { layout: Layout, component: Component, protect } = props;
+  const { layout: Layout, component: Component, protect, children } = props;
 
-  if(protect && !isLoggedIn() && location.pathname !== `app/sign-in`) {
+  if (protect && !isLoggedIn() && location.pathname !== `app/sign-in`) {
     navigate("app/sign-in")
     return null
   }

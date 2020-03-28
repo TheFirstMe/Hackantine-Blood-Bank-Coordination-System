@@ -36,7 +36,7 @@ export async function handleLogin({ email, password }) {
     // console.log(response)
     const data = await response.json();
     // console.log(data)
-    if (data.acccess_token) {
+    if (data.access_token) {
       console.log(`Credentials match! Setting the active user.`)
       return setUser(data)
     }
@@ -53,10 +53,18 @@ export const isLoggedIn = () => {
 
   const user = getUser()
 
-  return !!user.acccess_token
+  return !!user.access_token
 }
 
 export const getCurrentUser = () => isBrowser && getUser()
+
+export const getAccessToken = () => {
+  if (!isBrowser) return false
+
+  const user = getUser()
+
+  return user.access_token
+}
 
 export const logout = callback => {
   if (!isBrowser) return

@@ -1,7 +1,7 @@
 import React from "react"
 import { Router, Redirect } from "@reach/router"
 
-import { RouteWithLayout } from 'components';
+import { RouteWithLayout, DonorForm, DonorList } from 'components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
 // import Layout from "components/Layout/Layout";
 import {
@@ -40,19 +40,25 @@ const App = () => {
           protect
         />
         <RouteWithLayout
-          component={ProductListView}
+          component={DonorList}
           // exact
           layout={MainLayout}
           path="/donors"
           protect
         />
-        <RouteWithLayout
+        <RouteWithLayout 
+          component={DonorForm}
+          layout={MainLayout}
+          path="/donors/add"
+          protect
+        />
+        {/* <RouteWithLayout
           component={AccountView}
           // exact
           layout={MainLayout}
           path="/account"
           protect
-        />
+        /> */}
         <RouteWithLayout
           component={SettingsView}
           // exact

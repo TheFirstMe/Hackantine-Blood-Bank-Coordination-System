@@ -1,9 +1,10 @@
 import React from 'react'
 import { Minimal as Layout } from "layouts"
+import { DonorForm, DonorList } from "components"
 
 const Index = () => (
   <Layout>
-    <h1>Index</h1>
+    <DonorList />
   </Layout>
 )
 
