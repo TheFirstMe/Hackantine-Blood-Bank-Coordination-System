@@ -1,5 +1,8 @@
 {
   "env": {
     "API_URL": "@api_url"
-  }
+  },
+  "routes": [
+    { "src": "/", "dest": "/app" }
+  ]
 }
