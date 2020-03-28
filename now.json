@@ -3,6 +3,7 @@
     "API_URL": "@api_url"
   },
   "routes": [
-    { "src": "/", "dest": "/app" }
+    { "src": "/app", "dest": "/app/sign-in" },  
+    { "src": "/", "dest": "/app/sign-in" }
   ]
 }
