@@ -24,10 +24,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import EditIcon from '@material-ui/icons/Edit';
-import uuid from 'uuid/v1';
+
 import { getAccessToken, isAdmin, getUserID } from "utils/auth"
 import { navigate, Link } from "@reach/router"
-import {format, toDate, getMilliseconds, parse} from 'date-fns';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
