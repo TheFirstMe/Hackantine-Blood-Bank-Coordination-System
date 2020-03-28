@@ -426,7 +426,7 @@ const DonorList = () => {
 
   React.useEffect(() => {
     // get data from GitHub api
-    fetch(`${process.env.GATSBY_API_URL}/donar/all`, {
+    fetch(`/api/donor/all`, {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`
@@ -443,13 +443,11 @@ const DonorList = () => {
   }, [mod])
 
   const DeleteDonar = (id) => {
-    fetch(`${process.env.GATSBY_API_URL}/donar/delete`, {
+    fetch(`/api/donor/delete/${id}`, {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `donar_id=${id}`
     })
       .then(response => response.json()) // parse JSON from request
       .then(resultData => {

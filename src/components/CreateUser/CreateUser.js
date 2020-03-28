@@ -219,13 +219,13 @@ const CreateUser = props => {
     event.preventDefault();
     const user = formState.values;
     console.log(user)
-    fetch(`${process.env.GATSBY_API_URL}/user/create`, {
+    fetch(`/api/user/create`, {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/json"
       },
-      body: `name=${user.name}&email=${user.email}&mobile_number=91${user.mobileNumber}&password=${user.password}&permission_id=${user.permissionID}`
+      body: JSON.stringify({user: user})
     })
       .then(response => response.json()) // parse JSON from request
       .then(resultData => {

@@ -440,13 +440,11 @@ const UsersTable = () => {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: `donar_id=${id}`
     })
       .then(response => response.json()) // parse JSON from request
       .then(resultData => {
-        console.log(resultData.message)
+        console.log(resultData)
         if (resultData["status_code"] === 200) {
           setMod(id)
         }
