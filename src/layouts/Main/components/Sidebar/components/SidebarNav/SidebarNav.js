@@ -1,8 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
-import { Link as RouterLink } from '@reach/router';
-import { navigate } from "gatsby"
+// import { Link as RouterLink } from '@reach/router';
+import { navigate, Link as RouterLink } from "gatsby"
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -78,7 +78,7 @@ const SidebarNav = props => {
             activeClassName={classes.active}
             className={classes.button}
             component={CustomRouterLink}
-            to={`../${page.href}`}
+            to={`/app/${page.href}`}
           >
 
             <div className={classes.icon}>{page.icon}</div>

@@ -23,9 +23,11 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import EditIcon from '@material-ui/icons/Edit';
 import uuid from 'uuid/v1';
-import { getAccessToken, isAdmin } from "utils/auth"
+import { getAccessToken, isAdmin, getUserID } from "utils/auth"
 import { navigate, Link } from "@reach/router"
+import {format, toDate, getMilliseconds, parse} from 'date-fns';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -70,6 +72,7 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'blood_group', numeric: false, disablePadding: false, label: 'Blood Group' },
   { id: 'contact_number', numeric: false, disablePadding: false, label: 'Contact No.' },
+  { id: 'last_donatied_at', numeric: false, disablePadding: false, label: 'Last Donated'}
 ];
 
 function EnhancedTableHead(props) {
@@ -178,12 +181,17 @@ const EnhancedTableToolbar = props => {
             <span>
               <IconButton
                 aria-label="delete"
-                disabled={numSelected && numSelected !== getUserID() ? false : true}
+                disabled={numSelected ? false : true}
                 onClick={() => deleteDonar(numSelected)}
               >
                 <DeleteIcon />
               </IconButton>
             </span>
+          </Tooltip>
+          <Tooltip title="Edit">
+            <IconButton disabled={numSelected ? false : true} aria-label="edit" component={Link} to={`edit/${numSelected}`}>
+              <EditIcon />
+            </IconButton>
           </Tooltip>
         </>
       }
@@ -258,6 +266,9 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(3)
   }
 }));
+
+
+const bloodGroup = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
 
 function DonorTable({ rows, deleteDonar }) {
   const classes = useStyles();
@@ -371,8 +382,9 @@ function DonorTable({ rows, deleteDonar }) {
                       <TableCell align="center" component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="center">{row["blood_group"]}</TableCell>
+                      <TableCell align="center">{bloodGroup[row["blood_group"]]}</TableCell>
                       <TableCell align="center">{row["contact_number"]}</TableCell>
+                      <TableCell align="center">{row["last_donatied_at"] ? row["last_donatied_at"] : '-'}</TableCell>
                       {/* <TableCell align="right">{row.carbs}</TableCell>
                         <TableCell align="right">{row.protein}</TableCell> */}
                     </TableRow>
@@ -380,7 +392,7 @@ function DonorTable({ rows, deleteDonar }) {
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={4} />
+                  <TableCell colSpan={5} />
                 </TableRow>
               )}
             </TableBody>
@@ -406,6 +418,7 @@ function DonorTable({ rows, deleteDonar }) {
     </div >
   );
 }
+
 
 
 const DonorList = () => {

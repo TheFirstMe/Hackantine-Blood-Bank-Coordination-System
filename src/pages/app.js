@@ -57,6 +57,13 @@ const App = () => {
           path="/donors/add"
           protect
         />
+        <RouteWithLayout 
+          component={DonorForm}
+          layout={MainLayout}
+          path="/donors/edit/:donorId"
+          edit
+          protect
+        />
         {/* <RouteWithLayout
           component={AccountView}
           // exact

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, navigate } from '@reach/router';
+import {  navigate } from '@reach/router';
+import { Link as RouterLink} from 'gatsby'
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
@@ -23,6 +24,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { handleLogin, isLoggedIn } from "../../utils/auth"
 
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import {format} from 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  // MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const schema = {
   // email: {
@@ -228,258 +236,352 @@ const DonorForm = props => {
       }
     }));
   };
-
+  
   const handleSubmit = event => {
     event.preventDefault();
-    const donor = formState.values;
-    console.log(donor)
-    fetch(`${process.env.GATSBY_API_URL}/donar/create`, {
-      method: 'POST',
-      headers: {
-        "Authorization": `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: `name=${donor.name}&age=${donor.age}&blood_group=${donor["blood_group"]}&weight=${donor.weight}&contact_number=${donor["contact_number"]}&home_town=${donor["home_town"]}&district=${donor.district}`
-    })
-      .then(response => response.json()) // parse JSON from request
-      .then(resultData => {
-        console.log(resultData)
-        if (resultData["status_code"] === 200) {
-          setFormState(formState => ({
-            isValid: false,
-            values: {},
-            touched: {},
-            errors: {},
-            success: 1,
-          }));
-        }
-        else {
-          setFormState(formState => ({
-            ...formState,
-            success: 2,
-          }));
-        }
-        // setData(resultData.stargazers_count)
+    if (edit) {
+      fetch(`${process.env.GATSBY_API_URL}/donar/lastdonation`, {
+        method: 'POST',
+        headers: {
+          "Authorization": `Bearer ${getAccessToken()}`,
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `donar_id=${props.donorId}&donation_date=${format(selectedDate, 'yyyy-mm-dd')}`
       })
-    return null
-    // handleLogin({ email: email, password: password })
-    //   .then((authenticated) => {
-    //     if (authenticated) {
-    //       navigate('dashboard');
-    //       return null;
-    //     }
+        .then(response => response.json()) // parse JSON from request
+        .then(resultData => {
+          if (resultData["status_code"] === 200) {
+            console.log(resultData)
+            }
+          else {
+            // setFormState(formState => ({
+            //   ...formState,
+            //   success: 2,
+            // }));
+          }
+        })
+        return null
+      }
+    const donor = formState.values;
+      console.log(donor)
+      fetch(`${process.env.GATSBY_API_URL}/donar/create`, {
+        method: 'POST',
+        headers: {
+          "Authorization": `Bearer ${getAccessToken()}`,
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `name=${donor.name}&age=${donor.age}&blood_group=${donor["blood_group"]}&weight=${donor.weight}&contact_number=${donor["contact_number"]}&home_town=${donor["home_town"]}&district=${donor.district}`
+      })
+        .then(response => response.json()) // parse JSON from request
+        .then(resultData => {
+          console.log(resultData)
+          if (resultData["status_code"] === 200) {
+            setFormState(formState => ({
+              isValid: false,
+              values: {},
+              touched: {},
+              errors: {},
+              success: 1,
+            }));
+          }
+          else {
+            setFormState(formState => ({
+              ...formState,
+              success: 2,
+            }));
+          }
+          // setData(resultData.stargazers_count)
+        })
+      return null
+      // handleLogin({ email: email, password: password })
+      //   .then((authenticated) => {
+      //     if (authenticated) {
+      //       navigate('dashboard');
+      //       return null;
+      //     }
 
-    //     setFormState(formState => ({
-    //       ...formState,
-    //       errors: { login: true },
-    //     }));
-    //   })
-    //   .catch(console.error)
+      //     setFormState(formState => ({
+      //       ...formState,
+      //       errors: { login: true },
+      //     }));
+      //   })
+      //   .catch(console.error)
+    };
+
+    const hasError = field =>
+      formState.touched[field] && formState.errors[field] ? true : false;
+
+
+    const [selectedDate, setSelectedDate] = useState(new Date('2020-08-18T21:11:54'));
+    const handleDateChange = date => {
+      
+console.log(format(date, 'yyyy-mm-dd'))
+      setSelectedDate(date);
+    };
+
+    const { edit, donorId } = props;
+
+    useEffect(() => {
+      if (!edit) return
+      fetch(`${process.env.GATSBY_API_URL}/donar/${donorId}`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${getAccessToken()}`,
+        },
+      })
+        .then(response => response.json()) // parse JSON from request
+        .then(resultData => {
+          console.log(resultData)
+          if (resultData["status_code"] === 200) {
+            const donor = resultData.donar;
+            const values = {
+              name: donor.name,
+              age: donor.age,
+              "blood_group": donor["blood_group"],
+              weight: donor.weight,
+              "contact_number": donor["contact_number"],
+              "home_town": donor["home_town"],
+              district: donor.district,
+            }
+            // const lastDonate = donor["last_donatied_at"]
+            setFormState(formState => ({
+              ...formState,
+              values: { ...values }
+            }));
+          }
+          else {
+            // setFormState(formState => ({
+            //   ...formState,
+            //   success: 2,
+            // }));
+          }
+          // setData(resultData.stargazers_count)
+        })
+    }, [])
+
+    return (
+      <div className={classes.root}>
+        <Grid
+          className={classes.grid}
+          container
+          justify="center"
+        >
+          <div className={classes.content}>
+            <Paper className={classes.contentBody}>
+              <form
+                className={classes.form}
+                onSubmit={handleSubmit}
+              >
+                <Grid container className={classes.gridWidth} spacing={3}>
+                  <Grid item>
+                    <Typography
+                      className={classes.title}
+                      variant="h2"
+                      gutterBottom
+                    >
+                      Enter details of donor
+                </Typography>
+                  </Grid>
+                  <Grid item>
+                    {formState.success === 2 && <Alert
+                      className={classes.alert}
+                      severity="error"
+                    >
+                      An error occurred. Please try again!
+                </Alert>}
+                    {formState.success === 1 && <Alert
+                      className={classes.alert}
+                      severity="success"
+                    >
+                      Successsfully added a new donor
+                </Alert>}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('name')}
+                      fullWidth
+                      helperText={
+                        hasError('name') ? formState.errors.name[0] : null
+                      }
+                      label="Name"
+                      name="name"
+                      onChange={handleChange}
+                      type="text"
+                      value={formState.values.name || ''}
+                      variant="outlined"
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('weight')}
+                      helperText={
+                        hasError('weight') ? formState.errors.weight[0] : null
+                      }
+                      label="Weight"
+                      name="weight"
+                      onChange={handleChange}
+                      type="number"
+                      value={formState.values.weight || ''}
+                      variant="outlined"
+                      fullWidth
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('age')}
+                      helperText={
+                        hasError('age') ? formState.errors.age[0] : null
+                      }
+                      label="Age"
+                      name="age"
+                      onChange={handleChange}
+                      type="number"
+                      value={formState.values.age || ''}
+                      variant="outlined"
+                      fullWidth
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl
+                      variant="outlined"
+                      error={hasError('blood_group')}
+                      required
+                      className={classes.formControl}
+                      fullWidth
+                      disabled={edit ? true : false}
+                    >
+                      <InputLabel htmlFor="outlined-age-native-simple">Blood Group</InputLabel>
+                      <Select
+                        native
+                        value={formState.values["blood_group"] || ''}
+                        onChange={handleChange}
+                        label="Blood Group"
+                        inputProps={{
+                          name: 'blood_group',
+                          id: 'outlined-age-native-simple',
+                        }}
+                      >
+                        <option aria-label="None" value="" />
+                        <option value={0}>A+</option>
+                        <option value={1}>A-</option>
+                        <option value={2}>B+</option>
+                        <option value={3}>B-</option>
+                        <option value={4}>O+</option>
+                        <option value={5}>O-</option>
+                        <option value={6}>AB+</option>
+                        <option value={7}>AB-</option>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('home_town')}
+                      fullWidth
+                      helperText={
+                        hasError('home_town') ? formState.errors["home_town"][0] : null
+                      }
+                      label="Home Town"
+                      name="home_town"
+                      onChange={handleChange}
+                      type="text"
+                      value={formState.values["home_town"] || ''}
+                      variant="outlined"
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('district')}
+                      fullWidth
+                      helperText={
+                        hasError('district') ? formState.errors.district[0] : null
+                      }
+                      label="District"
+                      name="district"
+                      onChange={handleChange}
+                      type="text"
+                      value={formState.values.district || ''}
+                      variant="outlined"
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      className={classes.textField}
+                      error={hasError('contact_number')}
+                      helperText={
+                        hasError('contact_number') ? formState.errors["contact_number"][0] : null
+                      }
+                      label="Contact Number"
+                      name="contact_number"
+                      onChange={handleChange}
+                      type="tel"
+                      value={formState.values["contact_number"] || ''}
+                      variant="outlined"
+                      fullWidth
+                      disabled={edit ? true : false}
+                    />
+                  </Grid>
+                  {props.edit && <Grid item xs={12} sm={6}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="date-picker-dialog"
+                        label="Date picker dialog"
+                        format="yyyy/mm/dd"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </Grid>}
+                </Grid>
+                <Grid container className={classes.gridWidth} spacing={3}>
+                  <Grid item xs={6} sm={6}>
+                    <Button
+                      className={classes.signInButton}
+                      color="primary"
+                      disabled={edit ? false : !formState.isValid}
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      Save
+                </Button>
+                  </Grid>
+                  <Grid item xs={6} sm={6}>
+                    <Button
+                      className={classes.signInButton}
+                      color="secondary"
+                      // disabled={!formState.isValid}
+                      component={RouterLink}
+                      fullWidth
+                      size="large"
+                      variant="contained"
+                      to={`/app/donors`}
+                    >
+                      Cancel
+                </Button>
+                  </Grid>
+
+                </Grid>
+              </form>
+            </Paper>
+          </div>
+        </Grid>
+      </div>
+    );
   };
 
-  const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
-
-  return (
-    <div className={classes.root}>
-      <Grid
-        className={classes.grid}
-        container
-        justify="center"
-      >
-        <div className={classes.content}>
-          <Paper className={classes.contentBody}>
-            <form
-              className={classes.form}
-              onSubmit={handleSubmit}
-            >
-              <Grid container className={classes.gridWidth} spacing={3}>
-                <Grid item>
-                  <Typography
-                    className={classes.title}
-                    variant="h2"
-                    gutterBottom
-                  >
-                    Enter details of donor
-                </Typography>
-                </Grid>
-                <Grid item>
-                  {formState.success===2 && <Alert
-                    className={classes.alert}
-                    severity="error"
-                  >
-                    An error occurred. Please try again!
-                </Alert>}
-                {formState.success===1 && <Alert
-                    className={classes.alert}
-                    severity="success"
-                  >
-                    Successsfully added a new donor
-                </Alert>}
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('name')}
-                    fullWidth
-                    helperText={
-                      hasError('name') ? formState.errors.name[0] : null
-                    }
-                    label="Name"
-                    name="name"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.name || ''}
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={6} sm={4}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('weight')}
-                    helperText={
-                      hasError('weight') ? formState.errors.weight[0] : null
-                    }
-                    label="Weight"
-                    name="weight"
-                    onChange={handleChange}
-                    type="number"
-                    value={formState.values.weight || ''}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={6} sm={4}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('age')}
-                    helperText={
-                      hasError('age') ? formState.errors.age[0] : null
-                    }
-                    label="Age"
-                    name="age"
-                    onChange={handleChange}
-                    type="number"
-                    value={formState.values.age || ''}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl
-                    variant="outlined"
-                    error={hasError('blood_group')}
-                    required
-                    className={classes.formControl}
-                    fullWidth
-                  >
-                    <InputLabel htmlFor="outlined-age-native-simple">Blood Group</InputLabel>
-                    <Select
-                      native
-                      value={formState.values["blood_group"] || ''}
-                      onChange={handleChange}
-                      label="Blood Group"
-                      inputProps={{
-                        name: 'blood_group',
-                        id: 'outlined-age-native-simple',
-                      }}
-                    >
-                      <option aria-label="None" value="" />
-                      <option value={`A+`}>A+</option>
-                      <option value={`A-`}>A-</option>
-                      <option value={`B+`}>B+</option>
-                      <option value={`B-`}>B-</option>
-                      <option value={`O+`}>O+</option>
-                      <option value={`O-`}>O-</option>
-                      <option value={`AB+`}>AB+</option>
-                      <option value={`AB-`}>AB-</option>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('home_town')}
-                    fullWidth
-                    helperText={
-                      hasError('home_town') ? formState.errors["home_town"][0] : null
-                    }
-                    label="Home Town"
-                    name="home_town"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values["home_town"] || ''}
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('district')}
-                    fullWidth
-                    helperText={
-                      hasError('district') ? formState.errors.district[0] : null
-                    }
-                    label="District"
-                    name="district"
-                    onChange={handleChange}
-                    type="text"
-                    value={formState.values.district || ''}
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    className={classes.textField}
-                    error={hasError('contact_number')}
-                    helperText={
-                      hasError('contact_number') ? formState.errors["contact_number"][0] : null
-                    }
-                    label="Contact Number"
-                    name="contact_number"
-                    onChange={handleChange}
-                    type="tel"
-                    value={formState.values["contact_number"] || ''}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Grid>
-              </Grid>
-              <Grid container className={classes.gridWidth} spacing={3}>
-                <Grid item xs={6} sm={6}>
-                  <Button
-                    className={classes.signInButton}
-                    color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Save
-                </Button>
-                </Grid>
-                <Grid item xs={6} sm={6}>
-                  <Button
-                    className={classes.signInButton}
-                    color="secondary"
-                    // disabled={!formState.isValid}
-                    component={RouterLink}
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    to={`../`}
-                  >
-                    Cancel
-                </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </Paper>
-        </div>
-      </Grid>
-    </div>
-  );
-};
-
-export default DonorForm
+  export default DonorForm
